@@ -1,0 +1,6 @@
+# Executables & objs
+WinCalib_1/bin
+WinCalib_1/obj
+
+# VS
+.vs
