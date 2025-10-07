@@ -1,15 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.IO;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Xml;
-using Newtonsoft.Json;
-using System.IO;
 using Formatting = Newtonsoft.Json.Formatting;
 
 namespace WinCalib_1
@@ -32,6 +34,16 @@ namespace WinCalib_1
         public ICommand CancelCommand { get; }
         public ICommand SaveJsonAndExitCommand { get; }
 
+        private string _windowTitle;
+        public string WindowTitle
+        {
+            get { return _windowTitle; }
+            set
+            {
+                _windowTitle = value;
+                OnPropertyChanged(nameof(WindowTitle));
+            }
+        }
 
         private string _paramName;
         public string ParamName
@@ -88,6 +100,20 @@ namespace WinCalib_1
             AddParamCommand = new RelayCommand(AddParamToList);
             CancelCommand = new RelayCommand(OnCancel);
             SaveJsonAndExitCommand = new RelayCommand(OnSaveJsonAndExit);
+
+            // Get the currently executing assembly
+            var assembly = Assembly.GetExecutingAssembly();
+
+            // Get file version info
+            var fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            string? fileVersion = fvi?.FileVersion;
+
+            // Get the Description attribute
+            var description = assembly
+                .GetCustomAttribute<AssemblyDescriptionAttribute>()?
+                .Description ?? string.Empty;
+
+            WindowTitle = description + " - " + (fileVersion == null ? string.Empty : fileVersion);
         }
 
         private void OnCancel(object parameter)
