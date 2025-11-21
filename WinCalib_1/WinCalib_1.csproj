@@ -22,7 +22,12 @@
 	<FileVersion>1.0.0.1</FileVersion>
 	<AssemblyVersion>1.0.0.1</AssemblyVersion>
 	<InformationalVersion>1.0.0.1</InformationalVersion>
+	<ApplicationIcon>Calibrix.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Calibrix.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
